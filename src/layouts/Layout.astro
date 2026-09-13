@@ -1,0 +1,207 @@
+---
+import '@fontsource/montserrat/latin-400.css';
+import '@fontsource/montserrat/latin-500.css';
+import '@fontsource/montserrat/latin-600.css';
+import '@fontsource/montserrat/latin-700.css';
+import '@fontsource/barlow-condensed/latin-700.css';
+import '@fontsource/barlow-condensed/latin-800.css';
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { site, hours } from '../data/site';
+import { seoPages } from '../data/seo';
+
+interface Props {
+  title?: string;
+  description?: string;
+  noindex?: boolean;
+}
+const { title, description: customDescription, noindex = false } = Astro.props;
+const path = Astro.url.pathname.endsWith('/')
+  ? Astro.url.pathname
+  : `${Astro.url.pathname}/`;
+const seo = seoPages[path];
+const pageTitle = seo?.title ?? `${title ?? site.name} | Let’s Play`;
+const description =
+  customDescription ??
+  seo?.description ??
+  'Gitaren, muzieklessen, reparaties en live muziek bij Let’s Play Guitar Center in Eindhoven.';
+const image = seo?.image ?? '/images/guitar-wall.webp';
+const imageAlt = seo?.imageAlt ?? 'Let’s Play Guitar Center in Eindhoven';
+const canonical = new URL(path, Astro.site);
+const indexable =
+  !noindex &&
+  !import.meta.env.DEV &&
+  import.meta.env.SITE_INDEXABLE !== 'false';
+const businessId = new URL('/#business', Astro.site).href;
+const websiteId = new URL('/#website', Astro.site).href;
+const days = [
+  'Monday',
+  'Tuesday',
+  'Wednesday',
+  'Thursday',
+  'Friday',
+  'Saturday',
+  'Sunday',
+];
+const breadcrumbs =
+  path !== '/' && seo
+    ? {
+        '@type': 'BreadcrumbList',
+        '@id': `${canonical}#breadcrumb`,
+        itemListElement: [
+          {
+            '@type': 'ListItem',
+            position: 1,
+            name: 'Home',
+            item: Astro.site?.href,
+          },
+          ...(seo.parent
+            ? [
+                {
+                  '@type': 'ListItem',
+                  position: 2,
+                  name: seo.parent.name,
+                  item: new URL(seo.parent.path, Astro.site).href,
+                },
+              ]
+            : []),
+          {
+            '@type': 'ListItem',
+            position: seo.parent ? 3 : 2,
+            name: seo.name,
+            item: canonical.href,
+          },
+        ],
+      }
+    : undefined;
+const schema = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'MusicStore',
+      '@id': businessId,
+      name: site.name,
+      url: Astro.site?.href,
+      image: new URL('/images/shop.webp', Astro.site).href,
+      logo: {
+        '@type': 'ImageObject',
+        url: new URL('/images/letsplay-logo.png', Astro.site).href,
+        width: 270,
+        height: 132,
+      },
+      telephone: site.phoneHref.replace('tel:', ''),
+      email: site.email,
+      address: {
+        '@type': 'PostalAddress',
+        streetAddress: site.address,
+        postalCode: '5641 AW',
+        addressLocality: 'Eindhoven',
+        addressCountry: 'NL',
+      },
+      sameAs: [site.instagram, site.facebook],
+      hasMap: site.maps,
+      openingHoursSpecification: hours.map((item, index) => {
+        const [opens, closes] =
+          item.shop === 'Gesloten'
+            ? ['00:00', '00:00']
+            : item.shop.split(' – ');
+        return {
+          '@type': 'OpeningHoursSpecification',
+          dayOfWeek: `https://schema.org/${days[index]}`,
+          opens,
+          closes,
+        };
+      }),
+    },
+    {
+      '@type': 'WebSite',
+      '@id': websiteId,
+      url: Astro.site?.href,
+      name: site.name,
+      alternateName: 'Let’s Play',
+      inLanguage: 'nl-NL',
+      publisher: { '@id': businessId },
+    },
+    {
+      '@type': path === '/contact/' ? 'ContactPage' : 'WebPage',
+      '@id': `${canonical}#webpage`,
+      url: canonical.href,
+      name: pageTitle,
+      description,
+      inLanguage: 'nl-NL',
+      isPartOf: { '@id': websiteId },
+      about: { '@id': businessId },
+      primaryImageOfPage: { '@id': `${canonical}#primaryimage` },
+      ...(breadcrumbs && { breadcrumb: { '@id': breadcrumbs['@id'] } }),
+    },
+    {
+      '@type': 'ImageObject',
+      '@id': `${canonical}#primaryimage`,
+      url: new URL(image, Astro.site).href,
+      caption: imageAlt,
+      width: seo?.imageWidth,
+      height: seo?.imageHeight,
+    },
+    ...(breadcrumbs ? [breadcrumbs] : []),
+  ],
+};
+---
+
+<!doctype html>
+<html lang="nl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#141413" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <meta
+      name="robots"
+      content={indexable
+        ? 'index, follow, max-image-preview:large'
+        : 'noindex, follow'}
+    />
+    {!noindex && <link rel="canonical" href={canonical} />}
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="nl_NL" />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    {!noindex && <meta property="og:url" content={canonical} />}
+    <meta property="og:image" content={new URL(image, Astro.site)} />
+    <meta property="og:image:alt" content={imageAlt} />
+    {
+      seo?.imageWidth && (
+        <meta property="og:image:width" content={String(seo.imageWidth)} />
+      )
+    }
+    {
+      seo?.imageHeight && (
+        <meta property="og:image:height" content={String(seo.imageHeight)} />
+      )
+    }
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={new URL(image, Astro.site)} />
+    <meta name="twitter:image:alt" content={imageAlt} />
+    {
+      !noindex && (
+        <script
+          is:inline
+          type="application/ld+json"
+          set:html={JSON.stringify(schema).replace(/</g, '\\u003c')}
+        />
+      )
+    }
+    <slot name="head" />
+  </head>
+  <body id="top">
+    <a class="skip-link" href="#main">Ga naar inhoud</a>
+    <Header />
+    <main id="main"><slot /></main>
+    <Footer />
+  </body>
+</html>

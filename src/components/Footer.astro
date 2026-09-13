@@ -1,0 +1,78 @@
+---
+import { site } from '../data/site';
+import Icon from './Icon.astro';
+---
+
+<footer class="site-footer">
+  <div class="container footer-main">
+    <div class="footer-brand">
+      <a href="/" aria-label="Let’s Play homepage"
+        ><img
+          src="/images/letsplay-logo.png"
+          alt="Let’s Play Guitar Center Eindhoven"
+          width="270"
+          height="132"
+          loading="lazy"
+        /></a
+      ><p>
+        Een plek voor jouw sound.<br />Een thuis voor muziekliefhebbers.
+      </p><div class="social-links">
+        <a
+          href={site.instagram}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Let’s Play op Instagram (nieuw tabblad)"
+          ><Icon name="instagram" /></a
+        ><a
+          href={site.facebook}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Let’s Play op Facebook (nieuw tabblad)"
+          ><Icon name="facebook" /></a
+        >
+      </div>
+    </div>
+    <div>
+      <h2>Ontdek Let’s Play</h2><a href="/de-winkel/">De gitaarwinkel</a><a
+        href="/muziekschool/">De muziekschool</a
+      ><a href="/bandlessen/">Bandlessen</a><a href="/lets-play-live/"
+        >Let’s Play Live & verhuur</a
+      >
+      <a href="/docenten/">Docentprofielen</a>
+      <a href="/les-tarieven/">Lestarieven</a>
+    </div>
+    <div>
+      <h2>Voor jouw gear</h2><a
+        href={site.webshop}
+        target="_blank"
+        rel="noopener noreferrer"
+        >Naar de webshop <Icon name="external" size={15} /><span
+          class="sr-only"
+        >
+          (nieuw tabblad)</span
+        ></a
+      ><a href="/gitaar-reparatie/">Gitaarreparatie</a><a
+        href="/versterker-reparatie/">Versterkerreparatie</a
+      ><a href="/contact/">Openingstijden & contact</a>
+      <a href="/prijslijst-gitaar-reparatie/">Reparatieprijzen</a>
+    </div>
+    <div>
+      <h2>Kom langs</h2><address>{site.address}<br />{site.city}</address><a
+        href={site.phoneHref}>{site.phone}</a
+      ><a href={'mailto:' + site.email}>{site.email}</a><a
+        class="footer-route"
+        href={site.maps}
+        target="_blank"
+        rel="noopener noreferrer"
+        >Plan je route <Icon name="external" size={17} /><span class="sr-only">
+          (nieuw tabblad)</span
+        ></a
+      >
+    </div>
+  </div>
+  <div class="container footer-bottom">
+    <p>© {new Date().getFullYear()} Let’s Play Guitar Center</p>
+    <a href="/algemene-voorwaarden/">Algemene voorwaarden</a>
+    <a href="#top">Terug naar boven <Icon name="arrow" size={16} /></a>
+  </div>
+</footer>

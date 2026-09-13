@@ -1,0 +1,36 @@
+---
+import Icon from './Icon.astro';
+import Hours from './Hours.astro';
+import { site } from '../data/site';
+---
+
+<section class="visit-section" aria-labelledby="visit-title">
+  <div class="container visit-grid">
+    <div class="visit-copy">
+      <span class="eyebrow"><span class="dot"></span> TOT ZO IN EINDHOVEN</span
+      ><h2 id="visit-title">
+        Loop binnen.<br /><span class="text-yellow">Plug in.</span>
+      </h2><p>
+        De koffie staat klaar. De gitaren ook.<br />Kom langs en laat je
+        inspireren.
+      </p><address>
+        <Icon name="pin" /><span>{site.address}<br />{site.city}</span>
+      </address><a
+        class="button button-outline"
+        href={site.maps}
+        target="_blank"
+        rel="noopener noreferrer"
+        >Plan je route <Icon name="external" /><span class="sr-only">
+          (nieuw tabblad)</span
+        ></a
+      >
+    </div>
+    <div class="visit-hours">
+      <div class="hours-heading">
+        <Icon name="clock" /><h3>Openingstijden winkel</h3>
+      </div><Hours /><a class="text-link" href="/contact/"
+        >Alle contactgegevens <Icon name="arrow" size={20} /></a
+      >
+    </div>
+  </div>
+</section>

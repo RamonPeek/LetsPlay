@@ -1,0 +1,24 @@
+---
+import { hours } from '../data/site';
+interface Props {
+  school?: boolean;
+}
+const { school = false } = Astro.props;
+---
+
+<table class="hours-table">
+  <caption class="sr-only"
+    >Openingstijden {school ? 'muziekschool' : 'winkel'}</caption
+  ><tbody
+    >{
+      hours.map((item) => (
+        <tr>
+          <>
+            <th scope="row">{item.day}</th>
+            <td>{school ? item.school : item.shop}</td>
+          </>
+        </tr>
+      ))
+    }</tbody
+  >
+</table>

@@ -1,0 +1,103 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Icon from '../components/Icon.astro';
+import Hours from '../components/Hours.astro';
+import { site } from '../data/site';
+---
+
+<Layout>
+  <section class="contact-hero">
+    <div class="container">
+      <nav class="breadcrumb" aria-label="Broodkruimelnavigatie">
+        <a href="/">Home</a><Icon name="arrow" size={12} /><span
+          aria-current="page">Contact</span
+        >
+      </nav><span class="eyebrow"
+        ><span class="dot"></span> TOT ZO BIJ LET’S PLAY</span
+      ><h1>
+        Kom binnen.<br /><span class="text-yellow">Laat van je horen.</span>
+      </h1><p>
+        Een vraag, een gitaar die aandacht nodig heeft of gewoon zin om rond te
+        kijken? We helpen je graag.
+      </p>
+    </div>
+  </section>
+  <section class="contact-body section-padding">
+    <div class="container contact-grid">
+      <div class="contact-details">
+        <h2>Hier vind je ons.</h2><div class="contact-method">
+          <Icon name="pin" /><div>
+            <span>DE WINKEL & MUZIEKSCHOOL</span><address>
+              Let’s Play Guitar Center<br />{site.address}<br />{site.city}
+            </address>
+          </div>
+        </div><div class="contact-method">
+          <Icon name="phone" /><div>
+            <span>BEL ONS</span><a href={site.phoneHref}>{site.phone}</a>
+          </div>
+        </div><div class="contact-method">
+          <Icon name="mail" /><div>
+            <span>STUUR EEN MAIL</span><a href={'mailto:' + site.email}
+              >{site.email}</a
+            >
+          </div>
+        </div><a
+          class="button button-dark"
+          href={site.maps}
+          target="_blank"
+          rel="noopener noreferrer"
+          >Plan je route <Icon name="external" /><span class="sr-only">
+            (nieuw tabblad)</span
+          ></a
+        ><div class="social-links">
+          <a
+            href={site.instagram}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Instagram (nieuw tabblad)"><Icon name="instagram" /></a
+          ><a
+            href={site.facebook}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Facebook (nieuw tabblad)"><Icon name="facebook" /></a
+          >
+        </div>
+      </div><div class="contact-hours">
+        <h2>Openingstijden.</h2><p>
+          Neem de tijd. Probeer een gitaar. Vind je sound.
+        </p><h3>De winkel</h3><Hours /><h3>De muziekschool</h3><Hours
+          school
+        /><p style="margin-top: 20px; margin-bottom: 0;">
+          Voor de openingstijden en evenementen van Let’s Play Live: <a
+            class="text-link"
+            href={site.facebook}
+            target="_blank"
+            rel="noopener noreferrer"
+            >bekijk onze socials <Icon name="external" size={15} /><span
+              class="sr-only"
+            >
+              (nieuw tabblad)</span
+            ></a
+          >
+        </p>
+      </div>
+    </div>
+  </section>
+  <section class="location-photo">
+    <img
+      src="/images/guitar-wall.webp"
+      alt="Gitaren aan de houten wand in de winkel"
+      width="1919"
+      height="791"
+      loading="lazy"
+    /><div class="container">
+      <div>
+        <h2>Je bent <span class="text-yellow">welkom.</span></h2><p>
+          Tongelresestraat 445a · Eindhoven
+        </p>
+      </div><a class="button" href="/de-winkel/"
+        >Neem alvast een kijkje <Icon name="arrow" /></a
+      >
+    </div>
+  </section>
+</Layout>

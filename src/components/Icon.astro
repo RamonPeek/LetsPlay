@@ -1,0 +1,41 @@
+---
+interface Props {
+  name: string;
+  size?: number;
+  class?: string;
+}
+const { name, size = 22, class: className } = Astro.props;
+const paths: Record<string, string> = {
+  arrow: 'M4 12h16M13 5l7 7-7 7',
+  external: 'M7 17L17 7M7 7h10v10',
+  pin: 'M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 1 1 16 0ZM15 10a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z',
+  clock: 'M22 12a10 10 0 1 1-20 0 10 10 0 0 1 20 0ZM12 6v6l4 2',
+  mail: 'M3 5h18v14H3ZM3 5l9 7 9-7',
+  phone:
+    'M5 3h4l2 5-3 2a16 16 0 0 0 6 6l2-3 5 2v4a2 2 0 0 1-2 2C10 21 3 14 3 5a2 2 0 0 1 2-2Z',
+  music:
+    'M9 18V5l11-2v13M9 8l11-2M9 18c0 1.7-1.8 3-4 3s-3-1.3-3-3 1.8-3 4-3 3 1.3 3 3ZM20 16c0 1.7-1.8 3-4 3s-3-1.3-3-3 1.8-3 4-3 3 1.3 3 3Z',
+  tool: 'M14 6a5 5 0 0 0-6 6L2 18a3 3 0 0 0 4 4l6-6a5 5 0 0 0 6-6l-4 4-4-4 4-4Z',
+  guitar:
+    'M13 10l6-6M18 3l3 3M14 11l-2-2c-1-1-3 0-3 2 0 1-1 2-3 2a5 5 0 1 0 5 5c0-2 1-3 2-3 2 0 3-2 1-4ZM7 16l1 1',
+  check: 'M5 12l4 4L19 6',
+  plus: 'M12 5v14M5 12h14',
+  instagram:
+    'M7 3h10a4 4 0 0 1 4 4v10a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V7a4 4 0 0 1 4-4ZM16 12a4 4 0 1 1-8 0 4 4 0 0 1 8 0ZM17 6h.01',
+  facebook: 'M14 22V12h4l1-5h-5V5c0-1 1-2 2-2h3V0h-4c-4 0-6 2-6 6v1H6v5h3v10',
+  down: 'M12 4v16M5 13l7 7 7-7',
+};
+---
+
+<svg
+  width={size}
+  height={size}
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="1.6"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  aria-hidden="true"
+  class={className}><path d={paths[name] ?? paths.arrow}></path></svg
+>

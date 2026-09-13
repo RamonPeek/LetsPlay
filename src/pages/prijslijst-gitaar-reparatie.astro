@@ -1,0 +1,92 @@
+---
+import Layout from '../layouts/Layout.astro';
+import DocumentHeader from '../components/DocumentHeader.astro';
+import Icon from '../components/Icon.astro';
+import { site } from '../data/site';
+const prices = [
+  [
+    'Besnaren — klassieke gitaar',
+    '€ 20',
+    'Toets en frets reinigen en polijsten, toets oliën en snaren correct aanbrengen.',
+  ],
+  ['Besnaren — western gitaar', '€ 15', ''],
+  ['Besnaren — elektrische gitaar', '€ 15', ''],
+  ['Besnaren — elektrische gitaar met zwevende brug', '€ 20', ''],
+  [
+    'Gitaar afstellen',
+    '€ 60',
+    'Basistarief. De prijs varieert met het benodigde werk en wordt bij inname besproken.',
+  ],
+  [
+    'Frets vlakken',
+    '€ 95',
+    'Basistarief. Afhankelijk van de staat van hals en frets.',
+  ],
+  ['Fretends', '€ 30 per kant', ''],
+  ['Herfretten — ongelakte toets', '€ 245', ''],
+  ['Herfretten — gelakte toets', '€ 280', ''],
+  ['Herfretten — slotted frets', '€ 320', ''],
+  [
+    'Elektronica',
+    '€ 50 per uur',
+    'Voor onderzoek kan een lager tarief gelden; dit verschilt per reparatie.',
+  ],
+  ['Topkam op maat — been', '€ 50', 'Exclusief materiaal.'],
+  ['Zadel op maat — been', '€ 40', 'Exclusief materiaal.'],
+  [
+    'Kam verlijmen',
+    '€ 80',
+    'Basistarief. Kam afsteken, lijm- en lakresten verwijderen, herlijmen en opschonen.',
+  ],
+];
+---
+
+<Layout
+  ><DocumentHeader
+    title="Gitaarreparatie."
+    accent="De prijslijst."
+    intro="Van nieuwe snaren tot specialistisch fretwerk. Bij inname van je instrument bespreken we altijd een prijsindicatie."
+    parent={{ name: 'Gitaarreparatie', href: '/gitaar-reparatie/' }}
+  /><section class="document-content section-padding">
+    <div class="container prose wide-prose">
+      <div
+        class="table-scroll"
+        role="region"
+        aria-label="Prijslijst gitaarreparatie"
+        tabindex="0"
+      >
+        <table class="pricing-table repair-price-table">
+          <caption>Reparatie & service</caption><thead
+            ><tr
+              ><th scope="col">Werkzaamheden</th><th scope="col">Tarief</th></tr
+            ></thead
+          ><tbody
+            >{
+              prices.map(([name, price, note]) => (
+                <tr>
+                  <>
+                    <th scope="row">
+                      {name}
+                      {note && <span class="table-note">{note}</span>}
+                    </th>
+                    <td>{price}</td>
+                  </>
+                </tr>
+              ))
+            }</tbody>
+        </table>
+      </div><h2>Afstellen: aandacht voor het hele instrument</h2><p>
+        We controleren topkamhoogte, halscurve, halshoek, pickuphoogte,
+        brughoogte, radius en intonatie. Ook losse schroeven aan mechanieken en
+        een losse jackoutput worden nagekeken.
+      </p><h2>Overige reparaties</h2><p>
+        Breuken, barsten, scheuren, structureel herstel en lakreparaties worden
+        met de luthier besproken. Als extra werkzaamheden afwijken van de
+        afgesproken prijsindicatie, nemen we contact op voordat we beginnen.
+      </p><a
+        class="button button-dark"
+        href={'mailto:' + site.email + '?subject=Gitaarreparatie'}
+        >Bespreek je reparatie <Icon name="arrow" /></a>
+    </div>
+  </section></Layout
+>

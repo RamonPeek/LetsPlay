@@ -1,0 +1,30 @@
+---
+import Icon from './Icon.astro';
+interface Props {
+  title: string;
+  accent: string;
+  intro: string;
+  parent?: { name: string; href: string };
+}
+const {
+  title,
+  accent,
+  intro,
+  parent = { name: 'De muziekschool', href: '/muziekschool/' },
+} = Astro.props;
+---
+
+<section class="document-header">
+  <div class="container">
+    <nav class="breadcrumb" aria-label="Broodkruimelnavigatie">
+      <a href="/">Home</a><Icon name="arrow" size={12} /><a href={parent.href}
+        >{parent.name}</a
+      ><Icon name="arrow" size={12} /><span aria-current="page"
+        >{title} {accent}</span>
+    </nav><span class="eyebrow"
+      ><span class="dot"></span> LET’S PLAY GUITAR CENTER · EINDHOVEN</span
+    ><h1>{title}<br /><span class="text-yellow">{accent}</span></h1><p>
+      {intro}
+    </p>
+  </div>
+</section>

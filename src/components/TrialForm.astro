@@ -1,0 +1,141 @@
+---
+import Icon from './Icon.astro';
+import { site } from '../data/site';
+interface Props {
+  band?: boolean;
+}
+const { band = false } = Astro.props;
+---
+
+<section class="trial-section" id="proefles" aria-labelledby="trial-title">
+  <div class="container trial-grid">
+    <div class="trial-copy">
+      <span class="eyebrow"><span class="dot"></span> GEWOON EENS PROBEREN</span
+      ><h2 id="trial-title">
+        Jouw eerste stap.<br /><span class="text-red">Een gratis proefles.</span
+        >
+      </h2><p>
+        Vertel ons wat je wilt spelen. We nemen contact met je op om een
+        passende {band ? 'bandles' : 'docent en lestijd'} te bespreken.
+      </p><a class="text-link" href={site.phoneHref}
+        >Liever even bellen? {site.phone} <Icon name="phone" size={18} /></a
+      >
+      <div class="faq">
+        <details>
+          <summary>Kan ik beginnen zonder ervaring?</summary><p>
+            Ja! Je hoeft voor individuele muziekles nog niet te kunnen spelen.
+            Voor een bandles bespreken we eerst jouw ervaring en zoeken we een
+            passende groep.
+          </p>
+        </details><details>
+          <summary>Welk instrument kan ik kiezen?</summary><p>
+            Je kunt bij ons terecht voor gitaarles, basles en zangles. Wil je
+            samen met anderen spelen? Vraag naar onze bandlessen.
+          </p>
+        </details><details>
+          <summary>Wanneer kan ik les volgen?</summary><p>
+            De muziekschool is van maandag tot en met zaterdag geopend. We
+            bespreken samen welke beschikbare lestijd bij jou past.
+          </p>
+        </details>
+      </div>
+    </div>
+    <form
+      class="trial-form"
+      action={'mailto:' + site.email}
+      method="get"
+      data-recipient={site.email}
+      data-band={String(band)}
+    >
+      <h3>Laat van je horen.</h3><div class="form-row">
+        <label
+          >Voornaam<input
+            name="firstName"
+            autocomplete="given-name"
+            required
+            maxlength="100"
+          /></label
+        ><label
+          >Achternaam<input
+            name="lastName"
+            autocomplete="family-name"
+            required
+            maxlength="100"
+          /></label
+        >
+      </div><label
+        >E-mailadres<input
+          type="email"
+          name="email"
+          autocomplete="email"
+          required
+          maxlength="200"
+        /></label
+      ><label
+        >Telefoonnummer<input
+          type="tel"
+          name="phone"
+          autocomplete="tel"
+          required
+          maxlength="40"
+        /></label
+      ><label
+        >{band ? 'Wat speel je?' : 'Waar wil je mee beginnen?'}<select
+          name="instrument"
+          required
+          ><option value="">Kies je instrument</option><option>Gitaar</option
+          ><option>Basgitaar</option><option>Zang</option>{
+            band && <option>Drums</option>
+          }{band && <option>Toetsen</option>}{
+            band && <option>Anders — zie mijn bericht</option>
+          }</select
+        ></label
+      ><label
+        >Vertel iets over jezelf (optioneel)<textarea
+          name="message"
+          rows="3"
+          maxlength="2000"
+          placeholder="Je ervaring, favoriete muziek of een vraag…"
+        ></textarea></label
+      ><button type="submit" class="button button-dark"
+        >Vraag je proefles aan <Icon name="arrow" /></button
+      ><p class="form-note">
+        Je aanvraag wordt klaargezet in je e-mailprogramma. Verstuur de e-mail
+        om je proefles aan te vragen.
+      </p><p class="form-status" role="status" hidden></p>
+    </form>
+  </div>
+</section>
+<script>
+  document.querySelectorAll<HTMLFormElement>('.trial-form').forEach((form) => {
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      if (!form.reportValidity()) return;
+      const data = new FormData(form);
+      const band = form.dataset.band === 'true';
+      const subject = `Aanvraag gratis proefles ${band ? 'bandles' : data.get('instrument')}`;
+      const body = [
+        'Hallo Let’s Play,',
+        '',
+        `Ik wil graag een gratis proefles ${band ? 'bandles' : String(data.get('instrument')).toLowerCase()} aanvragen.`,
+        '',
+        `Naam: ${data.get('firstName')} ${data.get('lastName')}`,
+        `E-mailadres: ${data.get('email')}`,
+        `Telefoonnummer: ${data.get('phone')}`,
+        `Instrument: ${data.get('instrument')}`,
+        '',
+        String(data.get('message') || ''),
+        '',
+        'Groetjes,',
+        String(data.get('firstName')),
+      ].join('\n');
+      const status = form.querySelector<HTMLElement>('.form-status');
+      if (status) {
+        status.textContent =
+          'Verstuur de aanvraag in je e-mailprogramma. Geen e-mailprogramma? Bel ons op 040 – 879 61 77.';
+        status.hidden = false;
+      }
+      window.location.href = `mailto:${form.dataset.recipient}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    });
+  });
+</script>

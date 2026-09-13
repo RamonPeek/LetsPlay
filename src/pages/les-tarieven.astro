@@ -1,0 +1,155 @@
+---
+import Layout from '../layouts/Layout.astro';
+import DocumentHeader from '../components/DocumentHeader.astro';
+import Icon from '../components/Icon.astro';
+const perLesson = [
+  { age: '< 21 jaar', single: '€ 22', duo: '€ 16' },
+  { age: '> 21 jaar', single: '€ 22,50', duo: '€ 16,50' },
+];
+const packages = [
+  {
+    age: '< 21 jaar',
+    single5: '€ 115',
+    single10: '€ 230',
+    duo5: '€ 85',
+    duo10: '€ 170',
+  },
+  {
+    age: '> 21 jaar',
+    single5: '€ 117,50',
+    single10: '€ 235',
+    duo5: '€ 87,50',
+    duo10: '€ 175',
+  },
+];
+---
+
+<Layout
+  ><DocumentHeader
+    title="Muziekles."
+    accent="De tarieven."
+    intro="Kies de lesvorm die bij je past. Dit zijn de gepubliceerde tarieven voor gitaar- en zangles, via automatische incasso of een vooraf betaald lespakket."
+  />
+  <section class="document-content section-padding">
+    <div class="container prose wide-prose">
+      <h2>Automatische incasso — per les</h2><div class="pricing-pair">
+        {
+          ['Gitaar', 'Zang'].map((instrument) => (
+            <div
+              class="table-scroll"
+              role="region"
+              aria-label={`Tarieven ${instrument.toLowerCase()} per les`}
+              tabindex="0"
+            >
+              <table class="pricing-table">
+                <>
+                  <caption>{instrument}</caption>
+                  <thead>
+                    <tr>
+                      <>
+                        <th scope="col">Leeftijd</th>
+                        <th scope="col">Enkel</th>
+                        <th scope="col">Duo *</th>
+                      </>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {perLesson.map((row) => (
+                      <tr>
+                        <th scope="row">{row.age}</th>
+                        <td>{row.single}</td>
+                        <td>{row.duo}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </>
+              </table>
+            </div>
+          ))
+        }
+      </div>
+      <p class="price-note">* Duo: 2, maximaal 3 personen in één les.</p>
+      <h2>Betaling via lespakket</h2>{
+        ['Gitaar', 'Zang'].map((instrument) => (
+          <div
+            class="table-scroll"
+            role="region"
+            aria-label={`Lespakketten ${instrument.toLowerCase()}`}
+            tabindex="0"
+          >
+            <table class="pricing-table package-table">
+              <>
+                <caption>{instrument}</caption>
+                <thead>
+                  <tr>
+                    <>
+                      <th scope="col">Leeftijd</th>
+                      <th scope="col">
+                        Enkel
+                        <br />5 lessen
+                      </th>
+                      <th scope="col">
+                        Enkel
+                        <br />
+                        10 lessen
+                      </th>
+                      <th scope="col">
+                        Duo *<br />5 lessen
+                      </th>
+                      <th scope="col">
+                        Duo *<br />
+                        10 lessen
+                      </th>
+                    </>
+                  </tr>
+                </thead>
+                <tbody>
+                  {packages.map((row) => (
+                    <tr>
+                      <th scope="row">{row.age}</th>
+                      <td>{row.single5}</td>
+                      <td>{row.single10}</td>
+                      <td>{row.duo5}</td>
+                      <td>{row.duo10}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </>
+            </table>
+          </div>
+        ))
+      }
+      <p class="price-note">* Duo: 2, maximaal 3 personen in één les.</p><h2>
+        Hulp bij de kosten
+      </h2><p>
+        Voor mensen met een lager inkomen bestaan mogelijkheden voor financiële
+        hulp bij sport en cultuur. Bekijk de informatie van <a
+          class="inline-link"
+          href="https://www.leergeld.nl/"
+          target="_blank"
+          rel="noopener noreferrer"
+          >Stichting Leergeld <Icon name="external" size={15} /><span
+            class="sr-only"
+          >
+            (nieuw tabblad)</span
+          ></a
+        > en het <a
+          class="inline-link"
+          href="https://www.volwassenenfonds.nl/"
+          target="_blank"
+          rel="noopener noreferrer"
+          >Volwassenenfonds <Icon name="external" size={15} /><span
+            class="sr-only"
+          >
+            (nieuw tabblad)</span
+          ></a
+        >.
+      </p><div class="document-actions">
+        <a class="button button-dark" href="/muziekschool/#proefles"
+          >Vraag een gratis proefles aan <Icon name="arrow" /></a
+        ><a class="inline-link" href="/algemene-voorwaarden/"
+          >Lees de algemene voorwaarden</a>
+      </div>
+    </div>
+  </section></Layout
+>

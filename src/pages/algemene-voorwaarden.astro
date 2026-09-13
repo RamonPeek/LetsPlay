@@ -1,0 +1,37 @@
+---
+import Layout from '../layouts/Layout.astro';
+import DocumentHeader from '../components/DocumentHeader.astro';
+import terms from '../data/lesson-terms.json';
+---
+
+<Layout
+  ><DocumentHeader
+    title="Muziekles."
+    accent="De voorwaarden."
+    intro="De afspraken over lesplanning, afmelden, betaling en opzeggen. Heb je vragen? Neem gerust contact met ons op."
+  /><section class="document-content section-padding">
+    <div class="container prose">
+      {
+        terms.map((block) =>
+          block.type === 'heading' ? (
+            <h2>{block.text}</h2>
+          ) : block.type === 'subheading' ? (
+            <h3>{block.text}</h3>
+          ) : block.type === 'list' ? (
+            <ul>
+              {block.items?.map((item) => (
+                <li>{item}</li>
+              ))}
+            </ul>
+          ) : (
+            <p>{block.text}</p>
+          ),
+        )
+      }
+      <p>
+        <a class="inline-link" href="mailto:info@letsplayguitarcenter.nl"
+          >Vragen? Mail info@letsplayguitarcenter.nl</a>
+      </p>
+    </div>
+  </section></Layout
+>

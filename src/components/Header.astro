@@ -1,0 +1,118 @@
+---
+import Icon from './Icon.astro';
+import { navigation, site } from '../data/site';
+const pathname = Astro.url.pathname;
+---
+
+<header class="site-header">
+  <div class="container header-inner">
+    <a
+      class="brand"
+      href="/"
+      aria-label="Let’s Play Guitar Center — naar de homepage"
+      ><img
+        src="/images/letsplay-logo.png"
+        alt="Let’s Play Guitar Center Eindhoven"
+        width="270"
+        height="132"
+      /></a
+    >
+    <nav class="desktop-nav" aria-label="Hoofdnavigatie">
+      {
+        navigation.map((item) => (
+          <a
+            href={item.href}
+            aria-current={pathname === item.href ? 'page' : undefined}
+            class:list={{
+              active:
+                pathname === item.href ||
+                (item.label === 'Muziekles' && pathname === '/bandlessen/') ||
+                (item.label === 'Reparaties' &&
+                  pathname === '/versterker-reparatie/'),
+            }}
+          >
+            {item.label}
+          </a>
+        ))
+      }
+    </nav>
+    <button
+      class="menu-toggle"
+      aria-label="Menu openen"
+      aria-expanded="false"
+      aria-controls="mobile-navigation"><span></span><span></span></button
+    >
+    <a
+      class="button webshop-button"
+      href={site.webshop}
+      target="_blank"
+      rel="noopener noreferrer"
+      >Webshop <Icon name="external" size={21} /><span class="sr-only">
+        (opent in een nieuw tabblad)</span
+      ></a
+    >
+  </div>
+  <nav
+    class="mobile-nav"
+    id="mobile-navigation"
+    aria-label="Mobiele navigatie"
+    hidden
+  >
+    {
+      navigation.map((item) => (
+        <a
+          href={item.href}
+          aria-current={pathname === item.href ? 'page' : undefined}
+        >
+          {item.label}
+          <Icon name="arrow" />
+        </a>
+      ))
+    }
+    <a href="/bandlessen/">Bandlessen<Icon name="arrow" /></a>
+    <a href="/versterker-reparatie/">Versterkerreparatie<Icon name="arrow" /></a
+    >
+    <p>Gitaren. Muziek. Goede mensen.</p>
+  </nav>
+</header>
+<script>
+  const toggle = document.querySelector<HTMLButtonElement>('.menu-toggle');
+  const menu = document.querySelector<HTMLElement>('.mobile-nav');
+  function closeMenu() {
+    if (!toggle || !menu) return;
+    toggle.setAttribute('aria-expanded', 'false');
+    toggle.setAttribute('aria-label', 'Menu openen');
+    menu.hidden = true;
+  }
+  toggle?.addEventListener('click', () => {
+    if (!menu) return;
+    const open = toggle.getAttribute('aria-expanded') !== 'true';
+    toggle.setAttribute('aria-expanded', String(open));
+    toggle.setAttribute('aria-label', open ? 'Menu sluiten' : 'Menu openen');
+    menu.hidden = !open;
+  });
+  document.addEventListener('keydown', (event) => {
+    if (
+      event.key === 'Escape' &&
+      toggle?.getAttribute('aria-expanded') === 'true'
+    ) {
+      closeMenu();
+      toggle.focus();
+    }
+  });
+  document.addEventListener('click', (event) => {
+    if (
+      event.target instanceof Node &&
+      !document.querySelector('.site-header')?.contains(event.target)
+    )
+      closeMenu();
+  });
+  menu
+    ?.querySelectorAll('a')
+    .forEach((link) => link.addEventListener('click', closeMenu));
+  window
+    .matchMedia('(min-width: 1081px)')
+    .addEventListener('change', (event) => {
+      if (event.matches) closeMenu();
+    });
+</script>

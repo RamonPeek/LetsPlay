@@ -1,0 +1,28 @@
+{
+  "name": "letsplay-guitar-center",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev --host 127.0.0.1",
+    "build": "astro build",
+    "preview": "astro preview --host 127.0.0.1",
+    "check": "astro check",
+    "check:seo": "node scripts/check-seo.mjs",
+    "format": "prettier --write ."
+  },
+  "dependencies": {
+    "astro": "^7.3.2",
+    "@fontsource/barlow-condensed": "^5.2.8",
+    "@fontsource/montserrat": "^5.2.8"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.9",
+    "typescript": "^5.9.3",
+    "prettier": "^3.6.2",
+    "prettier-plugin-astro": "^0.14.1"
+  },
+  "engines": {
+    "node": ">=22.12.0"
+  }
+}

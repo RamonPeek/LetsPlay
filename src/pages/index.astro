@@ -1,0 +1,192 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Icon from '../components/Icon.astro';
+import Visit from '../components/Visit.astro';
+import { services } from '../data/site';
+---
+
+<Layout>
+  <link slot="head" rel="preload" as="image" href="/images/guitar-wall.webp" />
+  <section class="hero" aria-labelledby="hero-title">
+    <img
+      class="hero-photo"
+      src="/images/guitar-wall.webp"
+      alt="De houten gitaarwand van Let’s Play Guitar Center in Eindhoven"
+      width="1919"
+      height="791"
+      fetchpriority="high"
+    />
+    <div class="hero-shade"></div>
+    <div class="container hero-inner">
+      <div class="hero-copy">
+        <span class="eyebrow"
+          ><span class="dot"></span> GUITAR CENTER · EINDHOVEN</span
+        ><h1 id="hero-title">Jouw sound.<br /><span>Begint hier.</span></h1><p>
+          Van je eerste akkoord tot het grote podium.<br
+            class="desktop-break"
+          /> Gitaren, muziekles en een flinke dosis rock ’n’ roll.
+        </p><div class="hero-actions">
+          <a class="button" href="/de-winkel/"
+            >Ontdek de winkel <Icon name="arrow" /></a
+          ><a class="button button-outline" href="/muziekschool/"
+            >Vind jouw muziekles <Icon name="arrow" /></a
+          >
+        </div><a class="hero-location" href="/contact/"
+          ><Icon name="pin" size={18} /> Tongelresestraat 445a, Eindhoven</a
+        >
+      </div>
+      <div class="music-stamp" aria-hidden="true">
+        <svg viewBox="0 0 160 160"
+          ><defs
+            ><path
+              id="stamp-circle"
+              d="M80,80m-59,0a59,59 0 1,1 118,0a59,59 0 1,1-118,0"></path></defs
+          ><text
+            ><textPath href="#stamp-circle" textLength="368"
+              >GOOD GUITARS · GOOD PEOPLE · GOOD VIBES ·
+            </textPath></text
+          ></svg
+        ><div><Icon name="guitar" size={42} /><span>LET’S PLAY</span></div>
+      </div>
+      <div class="hero-bottom">
+        <span>GEEN GEWONE GITAARWINKEL.</span><a href="#ontdek"
+          >Een plek voor muziek <Icon name="down" size={17} /></a
+        >
+      </div>
+    </div>
+  </section>
+  <div class="sound-strip" aria-hidden="true">
+    <div>
+      <span>GITAREN</span><i>✦</i><span>VERSTERKERS</span><i>✦</i><span
+        >MUZIEKLES</span
+      ><i>✦</i><span>REPARATIES</span><i>✦</i><span>LIVE MUZIEK</span><i>✦</i
+      ><span>LET’S PLAY</span>
+    </div>
+  </div>
+  <section
+    class="discover section-padding"
+    id="ontdek"
+    aria-labelledby="discover-title"
+  >
+    <div class="container">
+      <div class="section-heading">
+        <div>
+          <span class="eyebrow"
+            ><span class="dot"></span> ALLES VOOR JOUW MUZIEK</span
+          ><h2 id="discover-title">
+            Meer dan een winkel.<br /><span class="text-muted"
+              >Een wereld vol muziek.</span
+            >
+          </h2>
+        </div><p>
+          Een nieuwe gitaar, de perfecte sound of je eerste les. Bij Let’s Play
+          draait het om wat jij wilt spelen.
+        </p>
+      </div>
+      <div class="service-grid">
+        {
+          services.map((service) => (
+            <a class="service-card" href={service.href}>
+              <>
+                <div class="service-image">
+                  <>
+                    <img
+                      src={`/images/${service.image}.webp`}
+                      alt={service.alt}
+                      width="640"
+                      height="480"
+                      loading="lazy"
+                    />
+                    <span class="service-number">{service.number}</span>
+                    <span class="round-arrow">
+                      <Icon name="arrow" size={23} />
+                    </span>
+                  </>
+                </div>
+                <div class="service-content">
+                  <>
+                    <span class="eyebrow">{service.tag}</span>
+                    <h3>{service.title}</h3>
+                    <p>{service.text}</p>
+                    <span class="service-cta">
+                      {service.cta}
+                      <Icon name="arrow" size={19} />
+                    </span>
+                  </>
+                </div>
+              </>
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+  <section class="about-section section-padding" aria-labelledby="about-title">
+    <div class="container about-grid">
+      <div class="about-image">
+        <img
+          src="/images/shop.webp"
+          alt="Een kijkje in de winkel tussen de gitaren en versterkers"
+          width="960"
+          height="720"
+          loading="lazy"
+        /><div class="image-note">
+          Come in.<br />Rock out.<span>LET’S PLAY, EINDHOVEN</span>
+        </div>
+      </div><div class="about-copy">
+        <span class="eyebrow"
+          ><span class="dot"></span> WELKOM BIJ LET’S PLAY</span
+        ><h2 id="about-title">
+          Voor de liefde<br />van <span class="text-red">muziek.</span>
+        </h2><p class="intro-text">Sommige plekken moet je gewoon ervaren.</p><p
+        >
+          Een muur vol gitaren. Versterkers met verhalen. Muziek in iedere hoek.
+          Let’s Play is een plek waar beginnende en ervaren muzikanten elkaar
+          vinden.
+        </p><p>
+          Wij geloven dat muziek maken begint met plezier. Daarom helpen we je
+          niet alleen aan je volgende instrument, maar ook aan de skills, de
+          sound en het podium.
+        </p><a class="button button-dark" href="/contact/"
+          >Kom de sfeer proeven <Icon name="arrow" /></a
+        ><span class="about-signoff">See you at Let’s Play.</span>
+      </div>
+    </div>
+  </section>
+  <section class="live-section" aria-labelledby="live-title">
+    <img
+      src="/images/live.webp"
+      alt="De kleurrijke bar en intieme sfeer van Let’s Play Live"
+      width="1920"
+      height="1280"
+      loading="lazy"
+    /><div class="live-shade"></div><div class="container live-inner">
+      <div>
+        <span class="eyebrow"><span class="dot"></span> LET’S PLAY LIVE</span
+        ><h2 id="live-title">
+          Als de versterkers aan gaan,<br /><span class="text-yellow"
+            >komt de avond tot leven.</span
+          >
+        </h2><p>
+          Live muziek. Een goed drankje. En jij, dicht op het podium.<br
+          />Ontdek ons muziekcafé, live podium en evenementenlocatie.
+        </p><a class="button" href="/lets-play-live/"
+          >Ontdek Let’s Play Live <Icon name="arrow" /></a
+        >
+      </div><span class="live-side-note" aria-hidden="true"
+        >MUSIC SOUNDS BETTER LIVE.</span
+      >
+    </div>
+  </section>
+  <section class="lesson-banner">
+    <div class="container">
+      <div>
+        <span class="eyebrow">JE EERSTE NOOT IS DICHTERBIJ DAN JE DENKT.</span
+        ><h2>Klaar om te <span>spelen?</span></h2>
+      </div><a class="button button-dark" href="/muziekschool/#proefles"
+        >Vraag een gratis proefles aan <Icon name="arrow" /></a
+      >
+    </div>
+  </section>
+  <Visit />
+</Layout>

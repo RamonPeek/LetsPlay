@@ -1,0 +1,146 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Icon from '../components/Icon.astro';
+import TrialForm from '../components/TrialForm.astro';
+import Visit from '../components/Visit.astro';
+import { servicePages, type ServicePage } from '../data/site';
+import { teachers, type Teacher } from '../data/teachers';
+import TeacherProfile from '../components/TeacherProfile.astro';
+import Teachers from '../components/Teachers.astro';
+export function getStaticPaths() {
+  return [
+    ...servicePages.map((page) => ({
+      params: { slug: page.slug },
+      props: { page },
+    })),
+    ...teachers.map((teacher) => ({
+      params: { slug: teacher.slug },
+      props: { teacher },
+    })),
+  ];
+}
+interface Props {
+  page?: ServicePage;
+  teacher?: Teacher;
+}
+const { page, teacher } = Astro.props;
+const external = page?.href.startsWith('https:');
+const relatedExternal = page?.related.href.startsWith('https:');
+---
+
+<Layout>
+  {teacher && <TeacherProfile teacher={teacher} />}
+  {
+    page && (
+      <>
+        <section class="page-hero">
+          <>
+            <img
+              src={`/images/${page.image}.webp`}
+              alt={page.alt}
+              width="1440"
+              height="1080"
+              fetchpriority="high"
+            />
+            <div class="page-hero-shade" />
+            <div class="container page-hero-inner">
+              <>
+                <nav class="breadcrumb" aria-label="Broodkruimelnavigatie">
+                  <>
+                    <a href="/">Home</a>
+                    <Icon name="arrow" size={12} />
+                    <span aria-current="page">{page.title}</span>
+                  </>
+                </nav>
+                <span class="eyebrow">
+                  <span class="dot" />
+                  {page.eyebrow}
+                </span>
+                <h1>
+                  {page.heading}
+                  <br />
+                  <span>{page.accent}</span>
+                </h1>
+                <p>{page.intro}</p>
+                <a
+                  class="button"
+                  href={page.href}
+                  target={external ? '_blank' : undefined}
+                  rel={external ? 'noopener noreferrer' : undefined}
+                >
+                  {page.cta}
+                  <Icon name={external ? 'external' : 'arrow'} />
+                  {external && <span class="sr-only"> (nieuw tabblad)</span>}
+                </a>
+              </>
+            </div>
+          </>
+        </section>
+        <section class="page-content section-padding">
+          <div class="container">
+            <>
+              <div class="page-introduction">
+                <>
+                  <h2>{page.bodyTitle}</h2>
+                  <div>
+                    {page.paragraphs.map((p) => (
+                      <p>{p}</p>
+                    ))}
+                  </div>
+                </>
+              </div>
+              <div class="feature-grid">
+                {page.features.map((feature, index) => (
+                  <div class="feature">
+                    <>
+                      <span>0{index + 1}</span>
+                      <h3>{feature.title}</h3>
+                      <p>{feature.text}</p>
+                    </>
+                  </div>
+                ))}
+              </div>
+            </>
+            {page.slug === 'gitaar-reparatie' && (
+              <a
+                class="button button-dark content-action"
+                href="/prijslijst-gitaar-reparatie/"
+              >
+                Bekijk de reparatieprijzen <Icon name="arrow" />
+              </a>
+            )}
+            {page.slug === 'muziekschool' && (
+              <div class="document-actions">
+                <a class="button button-dark" href="/les-tarieven/">
+                  Bekijk de lestarieven <Icon name="arrow" />
+                </a>
+                <a class="inline-link" href="/algemene-voorwaarden/">
+                  Algemene voorwaarden
+                </a>
+              </div>
+            )}
+          </div>
+        </section>
+        {page.slug === 'muziekschool' && <Teachers />}
+        {page.trial && <TrialForm band={page.slug === 'bandlessen'} />}
+        <section class="related-section">
+          <div class="container">
+            <>
+              <h2>{page.related.title}</h2>
+              <a
+                class="button button-outline"
+                href={page.related.href}
+                target={relatedExternal ? '_blank' : undefined}
+                rel={relatedExternal ? 'noopener noreferrer' : undefined}
+              >
+                {page.related.label}
+                <Icon name={relatedExternal ? 'external' : 'arrow'} />
+              </a>
+            </>
+          </div>
+        </section>
+      </>
+    )
+  }
+  <Visit />
+</Layout>
