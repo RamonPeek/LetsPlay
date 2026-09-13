@@ -1,17 +1,18 @@
 ---
+import { withBase, withoutBase } from '../utils/urls';
 import Icon from './Icon.astro';
 import { navigation, site } from '../data/site';
-const pathname = Astro.url.pathname;
+const pathname = withoutBase(Astro.url.pathname);
 ---
 
 <header class="site-header">
   <div class="container header-inner">
     <a
       class="brand"
-      href="/"
+      href={withBase('/')}
       aria-label="Let’s Play Guitar Center — naar de homepage"
       ><img
-        src="/images/letsplay-logo.png"
+        src={withBase('/images/letsplay-logo.png')}
         alt="Let’s Play Guitar Center Eindhoven"
         width="270"
         height="132"
@@ -21,7 +22,7 @@ const pathname = Astro.url.pathname;
       {
         navigation.map((item) => (
           <a
-            href={item.href}
+            href={withBase(item.href)}
             aria-current={pathname === item.href ? 'page' : undefined}
             class:list={{
               active:
@@ -61,7 +62,7 @@ const pathname = Astro.url.pathname;
     {
       navigation.map((item) => (
         <a
-          href={item.href}
+          href={withBase(item.href)}
           aria-current={pathname === item.href ? 'page' : undefined}
         >
           {item.label}
@@ -69,8 +70,9 @@ const pathname = Astro.url.pathname;
         </a>
       ))
     }
-    <a href="/bandlessen/">Bandlessen<Icon name="arrow" /></a>
-    <a href="/versterker-reparatie/">Versterkerreparatie<Icon name="arrow" /></a
+    <a href={withBase('/bandlessen/')}>Bandlessen<Icon name="arrow" /></a>
+    <a href={withBase('/versterker-reparatie/')}
+      >Versterkerreparatie<Icon name="arrow" /></a
     >
     <p>Gitaren. Muziek. Goede mensen.</p>
   </nav>

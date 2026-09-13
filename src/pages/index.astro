@@ -1,4 +1,5 @@
 ---
+import { withBase } from '../utils/urls';
 import Layout from '../layouts/Layout.astro';
 import Icon from '../components/Icon.astro';
 import Visit from '../components/Visit.astro';
@@ -6,11 +7,16 @@ import { services } from '../data/site';
 ---
 
 <Layout>
-  <link slot="head" rel="preload" as="image" href="/images/guitar-wall.webp" />
+  <link
+    slot="head"
+    rel="preload"
+    as="image"
+    href={withBase('/images/guitar-wall.webp')}
+  />
   <section class="hero" aria-labelledby="hero-title">
     <img
       class="hero-photo"
-      src="/images/guitar-wall.webp"
+      src={withBase('/images/guitar-wall.webp')}
       alt="De houten gitaarwand van Let’s Play Guitar Center in Eindhoven"
       width="1919"
       height="791"
@@ -26,12 +32,12 @@ import { services } from '../data/site';
             class="desktop-break"
           /> Gitaren, muziekles en een flinke dosis rock ’n’ roll.
         </p><div class="hero-actions">
-          <a class="button" href="/de-winkel/"
+          <a class="button" href={withBase('/de-winkel/')}
             >Ontdek de winkel <Icon name="arrow" /></a
-          ><a class="button button-outline" href="/muziekschool/"
+          ><a class="button button-outline" href={withBase('/muziekschool/')}
             >Vind jouw muziekles <Icon name="arrow" /></a
           >
-        </div><a class="hero-location" href="/contact/"
+        </div><a class="hero-location" href={withBase('/contact/')}
           ><Icon name="pin" size={18} /> Tongelresestraat 445a, Eindhoven</a
         >
       </div>
@@ -86,12 +92,12 @@ import { services } from '../data/site';
       <div class="service-grid">
         {
           services.map((service) => (
-            <a class="service-card" href={service.href}>
+            <a class="service-card" href={withBase(service.href)}>
               <>
                 <div class="service-image">
                   <>
                     <img
-                      src={`/images/${service.image}.webp`}
+                      src={withBase(`/images/${service.image}.webp`)}
                       alt={service.alt}
                       width="640"
                       height="480"
@@ -125,7 +131,7 @@ import { services } from '../data/site';
     <div class="container about-grid">
       <div class="about-image">
         <img
-          src="/images/shop.webp"
+          src={withBase('/images/shop.webp')}
           alt="Een kijkje in de winkel tussen de gitaren en versterkers"
           width="960"
           height="720"
@@ -147,7 +153,7 @@ import { services } from '../data/site';
           Wij geloven dat muziek maken begint met plezier. Daarom helpen we je
           niet alleen aan je volgende instrument, maar ook aan de skills, de
           sound en het podium.
-        </p><a class="button button-dark" href="/contact/"
+        </p><a class="button button-dark" href={withBase('/contact/')}
           >Kom de sfeer proeven <Icon name="arrow" /></a
         ><span class="about-signoff">See you at Let’s Play.</span>
       </div>
@@ -155,7 +161,7 @@ import { services } from '../data/site';
   </section>
   <section class="live-section" aria-labelledby="live-title">
     <img
-      src="/images/live.webp"
+      src={withBase('/images/live.webp')}
       alt="De kleurrijke bar en intieme sfeer van Let’s Play Live"
       width="1920"
       height="1280"
@@ -170,7 +176,7 @@ import { services } from '../data/site';
         </h2><p>
           Live muziek. Een goed drankje. En jij, dicht op het podium.<br
           />Ontdek ons muziekcafé, live podium en evenementenlocatie.
-        </p><a class="button" href="/lets-play-live/"
+        </p><a class="button" href={withBase('/lets-play-live/')}
           >Ontdek Let’s Play Live <Icon name="arrow" /></a
         >
       </div><span class="live-side-note" aria-hidden="true"
@@ -183,7 +189,9 @@ import { services } from '../data/site';
       <div>
         <span class="eyebrow">JE EERSTE NOOT IS DICHTERBIJ DAN JE DENKT.</span
         ><h2>Klaar om te <span>spelen?</span></h2>
-      </div><a class="button button-dark" href="/muziekschool/#proefles"
+      </div><a
+        class="button button-dark"
+        href={withBase('/muziekschool/#proefles')}
         >Vraag een gratis proefles aan <Icon name="arrow" /></a
       >
     </div>

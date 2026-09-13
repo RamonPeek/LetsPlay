@@ -1,4 +1,5 @@
 ---
+import { withBase } from '../utils/urls';
 import Layout from '../layouts/Layout.astro';
 import Icon from '../components/Icon.astro';
 import TrialForm from '../components/TrialForm.astro';
@@ -36,7 +37,7 @@ const relatedExternal = page?.related.href.startsWith('https:');
         <section class="page-hero">
           <>
             <img
-              src={`/images/${page.image}.webp`}
+              src={withBase(`/images/${page.image}.webp`)}
               alt={page.alt}
               width="1440"
               height="1080"
@@ -47,7 +48,7 @@ const relatedExternal = page?.related.href.startsWith('https:');
               <>
                 <nav class="breadcrumb" aria-label="Broodkruimelnavigatie">
                   <>
-                    <a href="/">Home</a>
+                    <a href={withBase('/')}>Home</a>
                     <Icon name="arrow" size={12} />
                     <span aria-current="page">{page.title}</span>
                   </>
@@ -64,7 +65,7 @@ const relatedExternal = page?.related.href.startsWith('https:');
                 <p>{page.intro}</p>
                 <a
                   class="button"
-                  href={page.href}
+                  href={withBase(page.href)}
                   target={external ? '_blank' : undefined}
                   rel={external ? 'noopener noreferrer' : undefined}
                 >
@@ -104,17 +105,20 @@ const relatedExternal = page?.related.href.startsWith('https:');
             {page.slug === 'gitaar-reparatie' && (
               <a
                 class="button button-dark content-action"
-                href="/prijslijst-gitaar-reparatie/"
+                href={withBase('/prijslijst-gitaar-reparatie/')}
               >
                 Bekijk de reparatieprijzen <Icon name="arrow" />
               </a>
             )}
             {page.slug === 'muziekschool' && (
               <div class="document-actions">
-                <a class="button button-dark" href="/les-tarieven/">
+                <a class="button button-dark" href={withBase('/les-tarieven/')}>
                   Bekijk de lestarieven <Icon name="arrow" />
                 </a>
-                <a class="inline-link" href="/algemene-voorwaarden/">
+                <a
+                  class="inline-link"
+                  href={withBase('/algemene-voorwaarden/')}
+                >
                   Algemene voorwaarden
                 </a>
               </div>
@@ -129,7 +133,7 @@ const relatedExternal = page?.related.href.startsWith('https:');
               <h2>{page.related.title}</h2>
               <a
                 class="button button-outline"
-                href={page.related.href}
+                href={withBase(page.related.href)}
                 target={relatedExternal ? '_blank' : undefined}
                 rel={relatedExternal ? 'noopener noreferrer' : undefined}
               >

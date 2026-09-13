@@ -24,6 +24,21 @@ The production website is generated in `dist/`. The build writes `dist/_redirect
 
 Run `npm run format` to format the source with Prettier and its Astro plugin.
 
+## GitHub Pages
+
+The workflow in `.github/workflows/deploy.yml` deploys pushes to `main` and can also be started manually. In [repository Settings → Pages](https://github.com/RamonPeek/LetsPlay/settings/pages), choose **GitHub Actions** as the publishing source. The workflow reads the domain and base path from GitHub Pages settings, runs the Astro and SEO checks, and deploys the built artifact. No deployment secret is needed.
+
+The current project URL is https://ramonpeek.github.io/LetsPlay/. Links, images, the sitemap, and metadata include `/LetsPlay/`; external teacher portraits and the webshop retain their existing URLs. The Pages preview defaults to `noindex` while the original business website is live. To enable indexing later, set the repository Actions variable `SITE_INDEXABLE` to `true` and redeploy.
+
+To reproduce the Pages build locally:
+
+```sh
+SITE_URL=https://ramonpeek.github.io SITE_BASE_PATH=/LetsPlay SITE_INDEXABLE=false npm run build
+SITE_URL=https://ramonpeek.github.io SITE_BASE_PATH=/LetsPlay SITE_INDEXABLE=false npm run check:seo
+```
+
+Normal local development still runs at http://localhost:4321/ without a repository prefix. GitHub Pages uses Astro’s HTML redirect fallbacks; it does not apply the Netlify/Cloudflare `_redirects` file as HTTP 301 rules. If replacing the original business domain later, preserve the external WordPress uploads and use a host or proxy that supports the required permanent redirects.
+
 ## Content and pages
 
 - 29 content pages: eight main pages, a teacher directory, 17 original teacher profiles, lesson rates, repair prices, and lesson terms. A custom 404 page is also included.

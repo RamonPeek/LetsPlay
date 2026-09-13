@@ -1,4 +1,5 @@
 ---
+import { withBase } from '../utils/urls';
 import { site } from '../data/site';
 import Icon from './Icon.astro';
 ---
@@ -6,9 +7,9 @@ import Icon from './Icon.astro';
 <footer class="site-footer">
   <div class="container footer-main">
     <div class="footer-brand">
-      <a href="/" aria-label="Let’s Play homepage"
+      <a href={withBase('/')} aria-label="Let’s Play homepage"
         ><img
-          src="/images/letsplay-logo.png"
+          src={withBase('/images/letsplay-logo.png')}
           alt="Let’s Play Guitar Center Eindhoven"
           width="270"
           height="132"
@@ -33,13 +34,13 @@ import Icon from './Icon.astro';
       </div>
     </div>
     <div>
-      <h2>Ontdek Let’s Play</h2><a href="/de-winkel/">De gitaarwinkel</a><a
-        href="/muziekschool/">De muziekschool</a
-      ><a href="/bandlessen/">Bandlessen</a><a href="/lets-play-live/"
-        >Let’s Play Live & verhuur</a
-      >
-      <a href="/docenten/">Docentprofielen</a>
-      <a href="/les-tarieven/">Lestarieven</a>
+      <h2>Ontdek Let’s Play</h2><a href={withBase('/de-winkel/')}
+        >De gitaarwinkel</a
+      ><a href={withBase('/muziekschool/')}>De muziekschool</a><a
+        href={withBase('/bandlessen/')}>Bandlessen</a
+      ><a href={withBase('/lets-play-live/')}>Let’s Play Live & verhuur</a>
+      <a href={withBase('/docenten/')}>Docentprofielen</a>
+      <a href={withBase('/les-tarieven/')}>Lestarieven</a>
     </div>
     <div>
       <h2>Voor jouw gear</h2><a
@@ -51,10 +52,10 @@ import Icon from './Icon.astro';
         >
           (nieuw tabblad)</span
         ></a
-      ><a href="/gitaar-reparatie/">Gitaarreparatie</a><a
-        href="/versterker-reparatie/">Versterkerreparatie</a
-      ><a href="/contact/">Openingstijden & contact</a>
-      <a href="/prijslijst-gitaar-reparatie/">Reparatieprijzen</a>
+      ><a href={withBase('/gitaar-reparatie/')}>Gitaarreparatie</a><a
+        href={withBase('/versterker-reparatie/')}>Versterkerreparatie</a
+      ><a href={withBase('/contact/')}>Openingstijden & contact</a>
+      <a href={withBase('/prijslijst-gitaar-reparatie/')}>Reparatieprijzen</a>
     </div>
     <div>
       <h2>Kom langs</h2><address>{site.address}<br />{site.city}</address><a
@@ -72,7 +73,7 @@ import Icon from './Icon.astro';
   </div>
   <div class="container footer-bottom">
     <p>© {new Date().getFullYear()} Let’s Play Guitar Center</p>
-    <a href="/algemene-voorwaarden/">Algemene voorwaarden</a>
+    <a href={withBase('/algemene-voorwaarden/')}>Algemene voorwaarden</a>
     <a href="#top">Terug naar boven <Icon name="arrow" size={16} /></a>
   </div>
 </footer>

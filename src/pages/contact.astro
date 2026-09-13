@@ -1,4 +1,5 @@
 ---
+import { withBase } from '../utils/urls';
 import Layout from '../layouts/Layout.astro';
 import Icon from '../components/Icon.astro';
 import Hours from '../components/Hours.astro';
@@ -9,7 +10,7 @@ import { site } from '../data/site';
   <section class="contact-hero">
     <div class="container">
       <nav class="breadcrumb" aria-label="Broodkruimelnavigatie">
-        <a href="/">Home</a><Icon name="arrow" size={12} /><span
+        <a href={withBase('/')}>Home</a><Icon name="arrow" size={12} /><span
           aria-current="page">Contact</span
         >
       </nav><span class="eyebrow"
@@ -85,7 +86,7 @@ import { site } from '../data/site';
   </section>
   <section class="location-photo">
     <img
-      src="/images/guitar-wall.webp"
+      src={withBase('/images/guitar-wall.webp')}
       alt="Gitaren aan de houten wand in de winkel"
       width="1919"
       height="791"
@@ -95,7 +96,7 @@ import { site } from '../data/site';
         <h2>Je bent <span class="text-yellow">welkom.</span></h2><p>
           Tongelresestraat 445a · Eindhoven
         </p>
-      </div><a class="button" href="/de-winkel/"
+      </div><a class="button" href={withBase('/de-winkel/')}
         >Neem alvast een kijkje <Icon name="arrow" /></a
       >
     </div>

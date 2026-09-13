@@ -1,4 +1,5 @@
 ---
+import { withBase } from '../utils/urls';
 import { teachers } from '../data/teachers';
 import Icon from './Icon.astro';
 interface Props {
@@ -30,12 +31,12 @@ const visible = all
     <div class="teacher-grid">
       {
         visible.map((teacher) => (
-          <a class="teacher-card" href={`/${teacher.slug}/`}>
+          <a class="teacher-card" href={withBase(`/${teacher.slug}/`)}>
             <>
               <div class="teacher-card-image">
                 <>
                   <img
-                    src={teacher.image}
+                    src={withBase(teacher.image)}
                     alt={`Portret van ${teacher.name}`}
                     width="460"
                     height="460"
@@ -56,7 +57,7 @@ const visible = all
     </div>
     {
       !all && (
-        <a class="text-link" href="/docenten/">
+        <a class="text-link" href={withBase('/docenten/')}>
           Bekijk alle docentprofielen <Icon name="arrow" />
         </a>
       )

@@ -1,4 +1,5 @@
 ---
+import { withBase } from '../utils/urls';
 import type { Teacher } from '../data/teachers';
 import Icon from './Icon.astro';
 interface Props {
@@ -10,10 +11,11 @@ const { teacher } = Astro.props;
 <section class="teacher-profile-header">
   <div class="container">
     <nav class="breadcrumb" aria-label="Broodkruimelnavigatie">
-      <a href="/">Home</a><Icon name="arrow" size={12} /><a
-        href="/muziekschool/">De muziekschool</a
+      <a href={withBase('/')}>Home</a><Icon name="arrow" size={12} /><a
+        href={withBase('/muziekschool/')}>De muziekschool</a
       ><Icon name="arrow" size={12} /><span aria-current="page"
-        >{teacher.name}</span>
+        >{teacher.name}</span
+      >
     </nav>
     <div class="teacher-profile-grid">
       <div>
@@ -21,11 +23,12 @@ const { teacher } = Astro.props;
           ><span class="dot"></span> {teacher.specialty.toUpperCase()}</span
         ><h1>{teacher.name}</h1><p>{teacher.intro}</p><a
           class="button"
-          href="/muziekschool/#proefles"
-          >Ontdek jouw muziekles <Icon name="arrow" /></a>
+          href={withBase('/muziekschool/#proefles')}
+          >Ontdek jouw muziekles <Icon name="arrow" /></a
+        >
       </div><img
         class="teacher-portrait"
-        src={teacher.image}
+        src={withBase(teacher.image)}
         alt={`Portret van ${teacher.name}`}
         width="460"
         height="460"
@@ -38,15 +41,17 @@ const { teacher } = Astro.props;
   <div class="container page-introduction">
     <h2>
       Maak kennis met<br /><span class="text-red"
-        >{teacher.name.split(' ')[0]}.</span>
+        >{teacher.name.split(' ')[0]}.</span
+      >
     </h2><div>
       {teacher.paragraphs.map((p) => <p>{p}</p>)}<p>
         Meer weten over onze muzieklessen en beschikbare lestijden? <a
           class="inline-link"
-          href="/contact/">Neem contact op met de muziekschool</a
+          href={withBase('/contact/')}>Neem contact op met de muziekschool</a
         >.
-      </p><a class="button button-dark" href="/les-tarieven/"
-        >Bekijk de lestarieven <Icon name="arrow" /></a>
+      </p><a class="button button-dark" href={withBase('/les-tarieven/')}
+        >Bekijk de lestarieven <Icon name="arrow" /></a
+      >
     </div>
   </div>
 </section>
@@ -54,6 +59,8 @@ const { teacher } = Astro.props;
   <div class="container">
     <h2>Vind de les die bij je past.</h2><a
       class="button button-outline"
-      href="/docenten/">Alle docentprofielen <Icon name="arrow" /></a>
+      href={withBase('/docenten/')}
+      >Alle docentprofielen <Icon name="arrow" /></a
+    >
   </div>
 </section>

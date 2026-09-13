@@ -1,4 +1,5 @@
 ---
+import { withBase } from '../utils/urls';
 import Layout from '../layouts/Layout.astro';
 import DocumentHeader from '../components/DocumentHeader.astro';
 import Icon from '../components/Icon.astro';
@@ -145,10 +146,11 @@ const packages = [
           ></a
         >.
       </p><div class="document-actions">
-        <a class="button button-dark" href="/muziekschool/#proefles"
+        <a class="button button-dark" href={withBase('/muziekschool/#proefles')}
           >Vraag een gratis proefles aan <Icon name="arrow" /></a
-        ><a class="inline-link" href="/algemene-voorwaarden/"
-          >Lees de algemene voorwaarden</a>
+        ><a class="inline-link" href={withBase('/algemene-voorwaarden/')}
+          >Lees de algemene voorwaarden</a
+        >
       </div>
     </div>
   </section></Layout

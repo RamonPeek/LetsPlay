@@ -10,6 +10,7 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import { site, hours } from '../data/site';
 import { seoPages } from '../data/seo';
+import { withBase, withoutBase, absoluteUrl } from '../utils/urls';
 
 interface Props {
   title?: string;
@@ -17,9 +18,8 @@ interface Props {
   noindex?: boolean;
 }
 const { title, description: customDescription, noindex = false } = Astro.props;
-const path = Astro.url.pathname.endsWith('/')
-  ? Astro.url.pathname
-  : `${Astro.url.pathname}/`;
+const pathname = withoutBase(Astro.url.pathname);
+const path = pathname.endsWith('/') ? pathname : `${pathname}/`;
 const seo = seoPages[path];
 const pageTitle = seo?.title ?? `${title ?? site.name} | Let’s Play`;
 const description =
@@ -28,13 +28,13 @@ const description =
   'Gitaren, muzieklessen, reparaties en live muziek bij Let’s Play Guitar Center in Eindhoven.';
 const image = seo?.image ?? '/images/guitar-wall.webp';
 const imageAlt = seo?.imageAlt ?? 'Let’s Play Guitar Center in Eindhoven';
-const canonical = new URL(path, Astro.site);
+const canonical = absoluteUrl(path, Astro.site);
 const indexable =
   !noindex &&
   !import.meta.env.DEV &&
   import.meta.env.SITE_INDEXABLE !== 'false';
-const businessId = new URL('/#business', Astro.site).href;
-const websiteId = new URL('/#website', Astro.site).href;
+const businessId = absoluteUrl('/#business', Astro.site);
+const websiteId = absoluteUrl('/#website', Astro.site);
 const days = [
   'Monday',
   'Tuesday',
@@ -54,7 +54,7 @@ const breadcrumbs =
             '@type': 'ListItem',
             position: 1,
             name: 'Home',
-            item: Astro.site?.href,
+            item: absoluteUrl('/', Astro.site),
           },
           ...(seo.parent
             ? [
@@ -62,7 +62,7 @@ const breadcrumbs =
                   '@type': 'ListItem',
                   position: 2,
                   name: seo.parent.name,
-                  item: new URL(seo.parent.path, Astro.site).href,
+                  item: absoluteUrl(seo.parent.path, Astro.site),
                 },
               ]
             : []),
@@ -70,7 +70,7 @@ const breadcrumbs =
             '@type': 'ListItem',
             position: seo.parent ? 3 : 2,
             name: seo.name,
-            item: canonical.href,
+            item: canonical,
           },
         ],
       }
@@ -82,11 +82,11 @@ const schema = {
       '@type': 'MusicStore',
       '@id': businessId,
       name: site.name,
-      url: Astro.site?.href,
-      image: new URL('/images/shop.webp', Astro.site).href,
+      url: absoluteUrl('/', Astro.site),
+      image: absoluteUrl('/images/shop.webp', Astro.site),
       logo: {
         '@type': 'ImageObject',
-        url: new URL('/images/letsplay-logo.png', Astro.site).href,
+        url: absoluteUrl('/images/letsplay-logo.png', Astro.site),
         width: 270,
         height: 132,
       },
@@ -117,7 +117,7 @@ const schema = {
     {
       '@type': 'WebSite',
       '@id': websiteId,
-      url: Astro.site?.href,
+      url: absoluteUrl('/', Astro.site),
       name: site.name,
       alternateName: 'Let’s Play',
       inLanguage: 'nl-NL',
@@ -126,7 +126,7 @@ const schema = {
     {
       '@type': path === '/contact/' ? 'ContactPage' : 'WebPage',
       '@id': `${canonical}#webpage`,
-      url: canonical.href,
+      url: canonical,
       name: pageTitle,
       description,
       inLanguage: 'nl-NL',
@@ -138,7 +138,7 @@ const schema = {
     {
       '@type': 'ImageObject',
       '@id': `${canonical}#primaryimage`,
-      url: new URL(image, Astro.site).href,
+      url: absoluteUrl(image, Astro.site),
       caption: imageAlt,
       width: seo?.imageWidth,
       height: seo?.imageHeight,
@@ -163,14 +163,14 @@ const schema = {
         : 'noindex, follow'}
     />
     {!noindex && <link rel="canonical" href={canonical} />}
-    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="icon" type="image/png" href={withBase('/favicon.png')} />
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="nl_NL" />
     <meta property="og:site_name" content={site.name} />
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={description} />
     {!noindex && <meta property="og:url" content={canonical} />}
-    <meta property="og:image" content={new URL(image, Astro.site)} />
+    <meta property="og:image" content={absoluteUrl(image, Astro.site)} />
     <meta property="og:image:alt" content={imageAlt} />
     {
       seo?.imageWidth && (
@@ -185,7 +185,7 @@ const schema = {
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={pageTitle} />
     <meta name="twitter:description" content={description} />
-    <meta name="twitter:image" content={new URL(image, Astro.site)} />
+    <meta name="twitter:image" content={absoluteUrl(image, Astro.site)} />
     <meta name="twitter:image:alt" content={imageAlt} />
     {
       !noindex && (

@@ -5,8 +5,20 @@ import { legacyRedirects } from '../redirects.mjs';
 
 // Audit the delivered HTML, not just the source components.
 const output = resolve(process.argv[2] ?? 'dist');
-const staging = process.argv.includes('--staging');
-const origin = 'https://www.letsplayguitarcenter.nl';
+const staging =
+  process.argv.includes('--staging') || process.env.SITE_INDEXABLE === 'false';
+const origin = new URL(
+  process.env.SITE_URL || 'https://www.letsplayguitarcenter.nl',
+).origin;
+const base = (process.env.SITE_BASE_PATH || '').replace(/\/$/, '');
+const siteUrl = (path) => `${origin}${base}${path}`;
+const logicalPath = (path) => {
+  assert.ok(
+    !base || path.startsWith(`${base}/`),
+    `URL stays within deployment base: ${path}`,
+  );
+  return path.slice(base.length) || '/';
+};
 const read = (path) => readFile(resolve(output, path), 'utf8');
 const decode = (text) =>
   text
@@ -44,7 +56,7 @@ for (const url of urls) {
   const parsed = new URL(url);
   assert.equal(parsed.origin, origin, `Production origin: ${url}`);
   assert.ok(parsed.pathname.endsWith('/'), `Canonical trailing slash: ${url}`);
-  const pathname = parsed.pathname;
+  const pathname = logicalPath(parsed.pathname);
   const html = await read(
     pathname === '/' ? 'index.html' : `${pathname.slice(1)}index.html`,
   );
@@ -96,8 +108,14 @@ for (const url of urls) {
     /^https:\/\//,
     `Absolute social image: ${pathname}`,
   );
-  for (const image of tags(html, 'img'))
+  for (const image of tags(html, 'img')) {
     assert.ok(attr(image, 'alt'), `Image alt: ${pathname}`);
+    const source = attr(image, 'src');
+    if (source.startsWith('/')) {
+      const asset = logicalPath(source);
+      assert.ok(await read(asset.slice(1)), `Local image exists: ${source}`);
+    }
+  }
   const json = html.match(
     /<script[^>]+type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/,
   )?.[1];
@@ -127,7 +145,7 @@ for (const url of urls) {
     tags(html, 'a')
       .map((tag) => attr(tag, 'href'))
       .filter((href) => href.startsWith('/'))
-      .map((href) => href.split('#')[0]),
+      .map((href) => logicalPath(href.split('#')[0])),
   );
 }
 // Crawl the internal link graph from the homepage to detect orphan pages.
@@ -135,7 +153,7 @@ for (const path of reachable)
   for (const href of linksByPage.get(path) ?? []) reachable.add(href);
 for (const url of urls)
   assert.ok(
-    reachable.has(new URL(url).pathname),
+    reachable.has(logicalPath(new URL(url).pathname)),
     `Page reachable through internal links: ${url}`,
   );
 const rules = await read('_redirects');
@@ -143,6 +161,13 @@ for (const [from, to] of Object.entries(legacyRedirects)) {
   assert.ok(rules.includes(`${from} ${to} 301`), `Hosting 301 rule: ${from}`);
   if (from.endsWith('/'))
     assert.ok(rules.includes(`${from.slice(0, -1)} ${to} 301`));
+  const fallback = await read(
+    `${from.slice(1)}${from.endsWith('/') ? '' : '/'}index.html`,
+  );
+  assert.ok(
+    fallback.includes(`url=${base}${to}`),
+    `Redirect fallback respects deployment base: ${from}`,
+  );
 }
 const original = JSON.parse(
   await readFile(
@@ -153,13 +178,13 @@ const original = JSON.parse(
 for (const url of original) {
   const path = new URL(url).pathname;
   assert.ok(
-    urls.includes(url) || legacyRedirects[path],
+    urls.includes(siteUrl(path)) || legacyRedirects[path],
     `Preserved or redirected original URL: ${url}`,
   );
 }
 const robots = await read('robots.txt');
 assert.match(robots, /Allow: \//);
-assert.ok(robots.includes(`Sitemap: ${origin}/sitemap.xml`));
+assert.ok(robots.includes(`Sitemap: ${siteUrl('/sitemap.xml')}`));
 const error = await read('404.html');
 assert.match(content(error, 'robots'), /noindex/);
 assert.ok(!tags(error, 'link').some((tag) => attr(tag, 'rel') === 'canonical'));
@@ -167,7 +192,7 @@ assert.ok(
   !urls.some(
     (url) =>
       url.includes('404') ||
-      Object.hasOwn(legacyRedirects, new URL(url).pathname),
+      Object.hasOwn(legacyRedirects, logicalPath(new URL(url).pathname)),
   ),
 );
 console.log(
